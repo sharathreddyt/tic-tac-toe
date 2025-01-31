@@ -63,7 +63,6 @@ function checkGameStatus() {
 
     winningCombinations.forEach(([first, second, third]) => {
         if (characterMap[first] === characterMap[second] && characterMap[third] === characterMap[second] && characterMap[second] !== '') {
-            console.log(winningMessage());
             statusDisplay.innerHTML = winningMessage()
             isGameDone = true
             document.querySelector('.game').style.pointerEvents = 'none'
