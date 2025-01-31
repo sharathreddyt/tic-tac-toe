@@ -46,13 +46,20 @@ function onRestart(e) {
     })
     currentPlayer = 'X'
     statusDisplay.innerHTML = currentPlayerTurn();
+    document.querySelector('.game').style.pointerEvents = 'auto'
 }
 
 function checkGameStatus() {
     let isGameDone = false;
-    const winningCombinations = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [1, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]
+    let allCellsFilled = true;
+    const winningCombinations = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]
     let characterMap = {}
-    cells.forEach((cell, index) => characterMap[index] = cell.innerHTML)
+    cells.forEach((cell, index) => {
+        characterMap[index] = cell.innerHTML;
+        if (cell.innerHTML === '') {
+            allCellsFilled = false
+        }
+    })
 
     winningCombinations.forEach(([first, second, third]) => {
         if (characterMap[first] === characterMap[second] && characterMap[third] === characterMap[second] && characterMap[second] !== '') {
@@ -60,6 +67,12 @@ function checkGameStatus() {
             statusDisplay.innerHTML = winningMessage()
             isGameDone = true
             document.querySelector('.game').style.pointerEvents = 'none'
+        } else {
+            if (allCellsFilled) {
+                statusDisplay.innerHTML = drawMessage()
+                isGameDone = true
+                document.querySelector('.game').style.pointerEvents = 'none'
+            }
         }
     })
     return isGameDone
